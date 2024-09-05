@@ -23,10 +23,12 @@ const patientModel = new mongoose.Schema({
     },
     AadharNo: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     AbhaNo: {
         type: String,
+        unique: true,
         required: true
     },
     Residence: {

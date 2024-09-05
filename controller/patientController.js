@@ -27,7 +27,7 @@ exports.addOrUpdatePatient = async (req, res) => {
         } else {
             counter.Count += 1;
         }
-        id = `VVCM${year}${month}${counter.Count.toString().padStart(4, '0')}`;
+        id = `VVCM${year}${month}${counter.Count}`;
         try {
             const newPatient = new Patient({
                 ApplicationID: id,
@@ -66,10 +66,27 @@ exports.getPatientByAadhar = async (req, res) => {
 // Get all patients
 exports.getAllPatients = async (req, res) => {
     try {
-        const patients = await Patient.find();
-        res.status(200).json(patients);
+        // Retrieve all patients
+        const patients = await Patient.find({});
+
+        // Process each patient to include symptoms count and last symptom data
+        const processedPatients = patients.map(patient => {
+            const symptomCount = patient.Symptoms.length;
+            const lastSymptom = symptomCount > 0 ? patient.Symptoms[symptomCount - 1].Title : null;
+            const lastVisited = symptomCount > 0 ? patient.Symptoms[symptomCount - 1].DateTime : null;
+
+            return {
+                ...patient.toObject(),
+                SymptomsCount: symptomCount,
+                LastSymptom: lastSymptom,
+                LastVisited: lastVisited
+            };
+        });
+
+        res.status(200).json(processedPatients);
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving patients', error: error.message });
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
