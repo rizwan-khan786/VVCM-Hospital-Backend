@@ -48,6 +48,7 @@ exports.addOrUpdatePatient = async (req, res) => {
             res.status(201).json({ message: 'Patient created successfully', patient: newPatient });
         } catch (error) {
             res.status(500).json({ message: 'Error creating patient', error: error.message });
+            console.log(error)
         }
     }
 };
