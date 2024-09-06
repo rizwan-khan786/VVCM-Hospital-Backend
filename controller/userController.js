@@ -25,7 +25,7 @@ exports.addUser = async (req, res) => {
             CratedAt: moment().tz("Asia/Kolkata").format('YYYY-MM-DD HH:mm:ss'),
             VisitedAt: "-"
         });
-        const newUserAttendance = new UserAttendance({ UserId: id, CratedAt: moment().tz("Asia/Kolkata").format('YYYY-MM-DD HH:mm:ss'), Attendance: [] });
+        const newUserAttendance = new UserAttendance({ UserId: id, CreatedAt: moment().tz("Asia/Kolkata").format('YYYY-MM-DD HH:mm:ss'), Attendance: [] });
         await newUser.save();
         await newUserAttendance.save();
         await counter.save();
