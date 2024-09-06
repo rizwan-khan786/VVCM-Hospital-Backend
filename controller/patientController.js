@@ -24,6 +24,7 @@ exports.addOrUpdatePatient = async (req, res) => {
         var counter = await Counter.findOne({ Title: `VVCM${year}${month}` });
         if (!counter) {
             counter = new Counter({ Title: `VVCM${year}${month}`, Count: 1 });
+            console.log(counter)
         } else {
             counter.Count += 1;
         }
@@ -45,6 +46,7 @@ exports.addOrUpdatePatient = async (req, res) => {
                 }]
             });
             await newPatient.save();
+            await counter.save();
             res.status(201).json({ message: 'Patient created successfully', patient: newPatient });
         } catch (error) {
             res.status(500).json({ message: 'Error creating patient', error: error.message });
