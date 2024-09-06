@@ -41,11 +41,16 @@ const patientModel = new mongoose.Schema({
     Symptoms: [{
         Title: {
             type: String,
+            required: true
         },
         DateTime: {
             type: String
         }
     }],
+    CreatedBy:{
+        type:String,
+        required:true
+    }
 });
 
 const Patient = mongoose.model("Patient", patientModel);
