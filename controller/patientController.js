@@ -4,14 +4,14 @@ const Counter = require('../model/counterModel');
 
 // Add a new patient
 exports.addOrUpdatePatient = async (req, res) => {
-    const { ApplicationID, PatientName, MobileNo, AGE, Gender, AadharNo, AbhaNo, Residence, Title, CreatedBy, Image } = req.body;
+    const { ApplicationID, PatientName, MobileNo, AGE,Emailid, Gender, AadharNo, AbhaNo, Residence, Title, CreatedBy, Image } = req.body;
 
     const patient = await Patient.findOne({ AadharNo });
     if (patient) {
-        
+
         patient.Symptoms.push({
             Title,
-            DateTime: moment().tz("Asia/Kolkata").format('YYYY-MM-DD HH:mm:ss')
+            DateTime: moment().tz("Asia/Kolkata").format('DD-MM-YYYY HH:mm:ss')
         });
         const updatedPatient = await patient.save();
         res.status(200).json({
@@ -22,29 +22,31 @@ exports.addOrUpdatePatient = async (req, res) => {
         var id;
         const month = moment().format('MM');
         const year = moment().format('YYYY');
-        var counter = await Counter.findOne({ Title: `VVCM${year}${month}` });
+        const date = moment().format('DD');
+        var counter = await Counter.findOne({ Title: `VVCM${date}${month}${year}` });
         if (!counter) {
-            counter = new Counter({ Title: `VVCM${year}${month}`, Count: 1 });
+            counter = new Counter({ Title: `VVCM${date}${month}${year}`, Count: 1 });
             console.log(counter)
         } else {
             counter.Count += 1;
         }
-        id = `VVCM${year}${month}${counter.Count}`;
+        id = `VVCM${date}${month}${year}${counter.Count}`;
         try {
             const newPatient = new Patient({
                 ApplicationID: id,
                 PatientName,
                 MobileNo,
                 AGE,
+                Emailid,
                 Gender,
                 Image,
                 AadharNo,
                 AbhaNo,
                 Residence,
-                CratedAt: moment().tz("Asia/Kolkata").format('YYYY-MM-DD HH:mm:ss'),
+                CratedAt: moment().tz("Asia/Kolkata").format('DD-MM-YYYY HH:mm:ss'),
                 Symptoms: [{
                     Title,
-                    DateTime: moment().tz("Asia/Kolkata").format('YYYY-MM-DD HH:mm:ss')
+                    DateTime: moment().tz("Asia/Kolkata").format('DD-MM-YYYY HH:mm:ss')
                 }],
                 CreatedBy
             });

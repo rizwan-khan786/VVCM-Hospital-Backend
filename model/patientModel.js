@@ -17,6 +17,10 @@ const patientModel = new mongoose.Schema({
         type: Number,
         required: true
     },
+    Emailid:{
+        type:String,
+        
+    },
     AGE: {
         type: String,
         required: true

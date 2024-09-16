@@ -10,7 +10,8 @@ const userAttendanceRoute = require("./route/userAttendanceRoutes")
 const PORT = 8000;
 require("./config/db");
 
-app.use(express.json());
+
+app.use(express.json({ limit: '1mb' }));
 app.use(bodyParser.json());
 app.use(cors());
 
