@@ -9,6 +9,10 @@ const patientModel = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Image:{
+        type:String,
+        
+    },
     MobileNo: {
         type: Number,
         required: true
