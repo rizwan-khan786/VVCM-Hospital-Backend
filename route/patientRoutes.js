@@ -5,6 +5,9 @@ const patientController = require('../controller/patientController'); // Adjust 
 // Add a new patient
 router.post('/add', patientController.addOrUpdatePatient);
 
+// Route to add diagnosis data
+router.post('/add-diagnosis', patientController.addDiagnosisData);
+
 // Get patient by ApplicationID
 router.get('/get/:AadharNo', patientController.getPatientByAadhar);
 

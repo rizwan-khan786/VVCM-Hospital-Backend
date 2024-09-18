@@ -11,7 +11,8 @@ exports.addOrUpdatePatient = async (req, res) => {
 
         patient.Symptoms.push({
             Title,
-            DateTime: moment().tz("Asia/Kolkata").format('DD-MM-YYYY HH:mm:ss')
+            DateTime: moment().tz("Asia/Kolkata").format('DD-MM-YYYY HH:mm:ss'),
+            DaDiagnosisData:{}
         });
         const updatedPatient = await patient.save();
         res.status(200).json({
@@ -46,7 +47,8 @@ exports.addOrUpdatePatient = async (req, res) => {
                 CratedAt: moment().tz("Asia/Kolkata").format('DD-MM-YYYY HH:mm:ss'),
                 Symptoms: [{
                     Title,
-                    DateTime: moment().tz("Asia/Kolkata").format('DD-MM-YYYY HH:mm:ss')
+                    DateTime: moment().tz("Asia/Kolkata").format('DD-MM-YYYY HH:mm:ss'),
+                    DaDiagnosisData:{}
                 }],
                 CreatedBy
             });
@@ -121,5 +123,43 @@ exports.deletePatient = async (req, res) => {
         res.status(200).json({ message: 'Patient deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting patient', error: error.message });
+    }
+};
+
+
+// Controller to add diagnosis data
+exports.addDiagnosisData = async (req, res) => {
+    const { AadharNo, symptomIndex, Test, DoctorName, Diagnosis, Medicine } = req.body;
+
+    try {
+        // Find the patient by ApplicationID
+        const patient = await Patient.findOne({ AadharNo: AadharNo });
+        if (!patient) {
+            return res.status(404).json({ message: "Patient not found." });
+        }
+
+        // Ensure the symptomIndex is valid
+        if (symptomIndex < 0 || symptomIndex >= patient.Symptoms.length) {
+            return res.status(400).json({ message: "Invalid symptom index." });
+        }
+
+        // Prepare the DiagnosisData
+        const diagnosisData = {
+            Test,
+            DoctorName,
+            Diagnosis,
+            Medicine,
+            DateTime: moment().tz("Asia/Kolkata").format('DD-MM-YYYY HH:mm:ss')
+        };
+
+        // Add the diagnosis data to the specified symptom
+        patient.Symptoms[symptomIndex].DiagnosisData = diagnosisData;
+
+        // Save the updated patient document
+        await patient.save();
+
+        return res.status(200).json({ message: "Diagnosis data added successfully.", patient });
+    } catch (error) {
+        return res.status(500).json({ message: "Error adding diagnosis data.", error });
     }
 };

@@ -53,6 +53,21 @@ const patientModel = new mongoose.Schema({
         },
         DateTime: {
             type: String
+        },
+        DiagnosisData:{
+            Test: {
+                type: String,
+            },
+            DoctorName:{
+                type: String,
+            }, 
+            Diagnosis:{
+                type: String,
+            }, 
+            Medicine :[String], 
+            DateTime: {
+                type: String
+            }
         }
     }],
     CreatedBy:{
