@@ -9,10 +9,6 @@ const patientModel = new mongoose.Schema({
         type: String,
         required: true,
     },
-    Image:{
-        type:String,
-        
-    },
     MobileNo: {
         type: Number,
         required: true
@@ -28,6 +24,11 @@ const patientModel = new mongoose.Schema({
     Gender: {
         type: String,
         required: true
+    },
+    Caste:{
+        type:String,
+        required:true
+
     },
     AadharNo: {
         type: String,

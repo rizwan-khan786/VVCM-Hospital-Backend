@@ -4,7 +4,7 @@ const Counter = require('../model/counterModel');
 
 // Add a new patient
 exports.addOrUpdatePatient = async (req, res) => {
-    const { ApplicationID, PatientName, MobileNo, AGE,Emailid, Gender, AadharNo, AbhaNo, Residence, Title, CreatedBy, Image } = req.body;
+    const { ApplicationID, PatientName, MobileNo, AGE,Emailid, Gender,Caste, AadharNo, AbhaNo, Residence, Title, CreatedBy } = req.body;
 
     const patient = await Patient.findOne({ AadharNo });
     if (patient) {
@@ -40,7 +40,7 @@ exports.addOrUpdatePatient = async (req, res) => {
                 AGE,
                 Emailid,
                 Gender,
-                Image,
+                Caste,
                 AadharNo,
                 AbhaNo,
                 Residence,
