@@ -26,8 +26,7 @@ const patientModel = new mongoose.Schema({
         required: true
     },
     Caste:{
-        type:String,
-        required:true
+        type:String
 
     },
     AadharNo: {
